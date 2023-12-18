@@ -5,22 +5,13 @@ const jwt = require("jsonwebtoken");
 //Apple Login
 const appleLogin = async (req, res) => {
   try {
-    const {
-      name,
-      email,
-      emoji,
-      appleId,
-    } = req.body;
+    const { email, appleId } = req.body;
 
-    if (
-      !name ||
-      !emoji ||
-      !appleId
-    ) {
-      return res.status(400).json("All fields are required");
+    if (!appleId) {
+      return res.status(400).json("AppleId not found!");
     }
 
-    if (req.user.sub !== appleId) {
+    if (req.appleUser.sub !== appleId) {
       return res.status(400).json("Invalid Apple Id");
     }
 
@@ -28,10 +19,13 @@ const appleLogin = async (req, res) => {
     const user = await User.findOne({ appleId: appleId });
 
     if (!user) {
+      const emailSplit = email.split("@");
+      const nameOfUser = emailSplit[0];
+      const usernameOfUser = emailSplit[0];
+      // *Create a new user
       const newUser = new User({
-        name: name,
-        email: email,
-        emoji: emoji,
+        name: nameOfUser,
+        email: usernameOfUser,
         appleId: appleId,
       });
 

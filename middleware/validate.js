@@ -42,7 +42,7 @@ const validateApple =  async (req, res, next) => {
     // if(verified.aud !== 'com.example.AstroAppSwift'){
     //     return res.status(400).json("Invalid Audience");
     // }
-    req.user = verified;
+    req.appleUser = verified;
     next();
   } catch (error) {
     console.error(error);
