@@ -19,6 +19,7 @@ const validateApple =  async (req, res, next) => {
   const identityToken = req.headers.authorization;
 
   if (!identityToken) {
+    console.log("Identity Token is required")
     return res.status(404).json("Identity Token is required");
   }
 
