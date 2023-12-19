@@ -1,5 +1,5 @@
 const { authenticateToken } = require("../middleware/verify");
-
+const { createDiary, getAllDiaries, getDiaryById, deleteDiary } = require("../controllers/diary");
 const router = require("express").Router();
 
 //* Diary Routes

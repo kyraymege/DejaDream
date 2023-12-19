@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 //TODO: Change user modal
 //Apple Login
 const appleLogin = async (req, res) => {
+  console.log(req.body)
   try {
     const { email, appleId } = req.body;
 

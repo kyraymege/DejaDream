@@ -35,6 +35,7 @@ const validateApple =  async (req, res, next) => {
     const appleKey = await getAppleKeys(kid);
 
     const verified = jwt.verify(identityToken, appleKey, {});
+    console.log(verified)
     
     if(!verified){
         return res.status(400).json("Invalid Identity Token");
