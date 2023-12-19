@@ -26,7 +26,8 @@ const appleLogin = async (req, res) => {
       // *Create a new user
       const newUser = new User({
         name: nameOfUser,
-        email: usernameOfUser,
+        username: usernameOfUser,
+        email: email,
         appleId: appleId,
       });
 
