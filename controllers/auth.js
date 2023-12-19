@@ -31,7 +31,10 @@ const appleLogin = async (req, res) => {
       });
 
       // *Create a new user
-      await newUser.save();
+      await newUser.save().catch((err) => {
+        console.log(err);
+        return res.status(500).json("Internal server error");
+      });
     }
 
     // *Create a new access token and refresh token
