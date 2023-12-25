@@ -11,7 +11,7 @@ const getAllDiaries = async (req, res) => {
       .skip(parseInt(page) * parseInt(limit))
       .sort({ createdAt: -1 });
       console.log(diaries)
-    res.status(200).json(diaries);
+    res.status(200).json({diaries : diaries});
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
