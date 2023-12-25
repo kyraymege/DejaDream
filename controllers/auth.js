@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 //TODO: Change user modal
 //Apple Login
 const appleLogin = async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   try {
     const { email, appleId } = req.body;
 
@@ -90,7 +90,7 @@ const refreshToken = async (req, res) => {
 
       return res
         .status(200)
-        .json({ token: accessToken, refreshToken: refreshToken });
+        .json({ accessToken: accessToken, refreshToken: refreshToken });
 
       // *Send the new access token and refresh token to the client
     });

@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const morgan = require("morgan"); // Require morgan module
 const authRoutes = require("./routes/auth");
 const notificationRoutes = require("./routes/notification");
+const diaryRoutes = require("./routes/diary");
+const userRoutes = require("./routes/users");
 
 dotenv.config();
 const PORT = process.env.PORT || 8080;
@@ -14,6 +16,8 @@ app.use(express.json());
 app.use(morgan("combined"));
 
 app.use("/api/auth", authRoutes);
+app.use("/api/diary", diaryRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/notification", notificationRoutes);
 
 app.use(

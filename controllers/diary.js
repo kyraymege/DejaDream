@@ -1,13 +1,12 @@
 const Diary = require("../models/diary");
-const CryptoJS = require('crypto-js');
+const CryptoJS = require("crypto-js");
 
 // Get all diaries
 const getAllDiaries = async (req, res) => {
-  const { limit,page } = req.query;
+  const { limit, page } = req.query;
 
   try {
-    if(!req.user) return res.status(401).json({ error:"User not authenticated"});
-    const diaries = await Diary.find({author: req.user._id})
+    const diaries = await Diary.find({ author: req.user._id })
       .limit(parseInt(limit))
       .skip(parseInt(page) * parseInt(limit))
       .sort({ createdAt: -1 });
@@ -37,11 +36,11 @@ const createDiary = async (req, res) => {
     const { title, content } = req.body;
     const encryptedContent = encrypt(content);
     const encryptedTitle = encrypt(title);
-    const diary = new Diary({ 
-      title: encryptedTitle, 
-      content : encryptedContent,
-      author
-     });
+    const diary = new Diary({
+      title: encryptedTitle,
+      content: encryptedContent,
+      author: req.user._id,
+    });
     await diary.save();
     res.status(201).json(diary);
   } catch (error) {
@@ -49,10 +48,7 @@ const createDiary = async (req, res) => {
   }
 };
 
-const encrypt = (text) => {
-  return text;
-}
-
+// ! Should not be used ???
 // // Update an existing diary
 // const updateDiary = async (req, res) => {
 //   try {
@@ -84,13 +80,29 @@ const deleteDiary = async (req, res) => {
   }
 };
 
+// Reset a user'd diary
+const resetUserDiaries = async (req, res) => {
+  try {
+    // delete all diaries associated with the user
+    await Diary.deleteMany({ author: req.user._id });
+
+    res.status(200).json({ message: "Diaries reset successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 function encrypt(text) {
   const ciphertext = CryptoJS.AES.encrypt(text, process.env.CRYPTO_SECRETKEY);
   return ciphertext.toString();
 }
 
 function decrypt(encryptedText) {
-  const bytes = CryptoJS.AES.decrypt(encryptedText, process.env.CRYPTO_SECRETKEY);
+  const bytes = CryptoJS.AES.decrypt(
+    encryptedText,
+    process.env.CRYPTO_SECRETKEY
+  );
   return bytes.toString(CryptoJS.enc.Utf8);
 }
 
@@ -100,4 +112,5 @@ module.exports = {
   createDiary,
   updateDiary,
   deleteDiary,
+  resetUserDiaries,
 };
