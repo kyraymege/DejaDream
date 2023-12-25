@@ -16,7 +16,6 @@ const authenticateToken = async (req, res, next) => {
       return res.status(401).json({ message: "Unauthorized: Invalid token" });
       // }
     }
-
     // Token is valid
     req.user = user;
     next();

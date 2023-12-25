@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 //TODO: Change user modal
 //Apple Login
 const appleLogin = async (req, res) => {
-  console.log(req.body);
   try {
     const { email, appleId } = req.body;
 
@@ -32,28 +31,45 @@ const appleLogin = async (req, res) => {
       });
 
       // *Create a new user
-      await newUser.save().catch((err) => {
+      const savedUser = await newUser.save().catch((err) => {
         console.log(err);
         return res.status(500).json("Internal server error");
       });
+
+      // *Create a new access token and refresh token
+      const accessToken = jwt.sign(
+        { appleId: appleId, _id: savedUser._id },
+        process.env.ACCESS_SECRET,
+        { expiresIn: "15m" }
+      );
+
+      const refreshToken = jwt.sign(
+        { appleId: appleId, _id: savedUser._id },
+        process.env.REFRESH_SECRET,
+        { expiresIn: "15d" }
+      );
+
+      return res
+        .status(200)
+        .json({ accessToken: accessToken, refreshToken: refreshToken });
+    } else {
+      // *Create a new access token and refresh token
+      const accessToken = jwt.sign(
+        { appleId: appleId, _id: user._id },
+        process.env.ACCESS_SECRET,
+        { expiresIn: "15m" }
+      );
+
+      const refreshToken = jwt.sign(
+        { appleId: appleId, _id: user._id },
+        process.env.REFRESH_SECRET,
+        { expiresIn: "15d" }
+      );
+
+      return res
+        .status(200)
+        .json({ accessToken: accessToken, refreshToken: refreshToken });
     }
-
-    // *Create a new access token and refresh token
-    const accessToken = jwt.sign(
-      { appleId: appleId },
-      process.env.ACCESS_SECRET,
-      { expiresIn: "15m" }
-    );
-
-    const refreshToken = jwt.sign(
-      { appleId: appleId },
-      process.env.REFRESH_SECRET,
-      { expiresIn: "15d" }
-    );
-
-    return res
-      .status(200)
-      .json({ accessToken: accessToken, refreshToken: refreshToken });
   } catch (err) {
     console.error(err);
     res.status(500).json("Internal server error");
