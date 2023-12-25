@@ -19,7 +19,7 @@ const getAllDiaries = async (req, res) => {
 // Get a single diary by ID
 const getDiaryById = async (req, res) => {
   try {
-    const diary = await Diary.findById(req.params.id);
+    const diary = await Diary.findById(req.params.diaryId);
     if (!diary) {
       return res.status(404).json({ error: "Diary not found" });
     }
@@ -33,6 +33,7 @@ const getDiaryById = async (req, res) => {
 // Create a new diary
 const createDiary = async (req, res) => {
   try {
+    console.log(req.user._id)
     const { title, content } = req.body;
     const encryptedContent = encrypt(content);
     const encryptedTitle = encrypt(title);
@@ -41,6 +42,7 @@ const createDiary = async (req, res) => {
       content: encryptedContent,
       author: req.user._id,
     });
+    console.log(diary)
     await diary.save();
     res.status(201).json(diary);
   } catch (error) {
@@ -70,7 +72,7 @@ const createDiary = async (req, res) => {
 // Delete a diary
 const deleteDiary = async (req, res) => {
   try {
-    const diary = await Diary.findByIdAndDelete(req.params.id);
+    const diary = await Diary.findByIdAndDelete(req.params.diaryId);
     if (!diary) {
       return res.status(404).json({ error: "Diary not found" });
     }
