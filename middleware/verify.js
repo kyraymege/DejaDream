@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const UserRefreshToken = require("../models/user-refreshToken");
 
 //TODO: If required, change status codes
 const authenticateToken = async (req, res, next) => {

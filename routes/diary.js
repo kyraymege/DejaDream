@@ -22,9 +22,6 @@ router.get("/resetUser", authenticateToken, resetUserDiaries);
 // Get a diary by id
 router.get("/:diaryId", authenticateToken, getDiaryById);
 
-// // Update a diary
-// router.put("/:diaryId",authenticateToken, updateDiary);
-
 // Delete a diary
 router.delete("/:diaryId", authenticateToken, deleteDiary);
 

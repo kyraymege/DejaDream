@@ -110,7 +110,6 @@ module.exports = {
   getAllDiaries,
   getDiaryById,
   createDiary,
-  updateDiary,
   deleteDiary,
   resetUserDiaries,
 };
