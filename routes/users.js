@@ -10,7 +10,7 @@ const {
 //* Users Routes
 
 // getUser
-router.post("/", authenticateToken, getUser);
+router.get("/", authenticateToken, getUser);
 
 // Change username
 router.put("/changeUsername",authenticateToken, changeUsername);
