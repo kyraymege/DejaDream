@@ -97,16 +97,9 @@ const refreshToken = async (req, res) => {
         { expiresIn: "15m" }
       );
 
-      // *Create a new refresh token
-      const refreshToken = jwt.sign(
-        { appleId: user.appleId, _id: user._id},
-        process.env.REFRESH_SECRET,
-        { expiresIn: "15d" }
-      );
-
       return res
         .status(200)
-        .json({ accessToken: accessToken, refreshToken: refreshToken });
+        .json({ accessToken: accessToken });
 
       // *Send the new access token and refresh token to the client
     });
