@@ -4,14 +4,19 @@ const CryptoJS = require("crypto-js");
 // Get all diaries
 const getAllDiaries = async (req, res) => {
   const { limit, page } = req.query;
-  console.log(limit, page)
   try {
     const diaries = await Diary.find({ author: req.user._id })
       .limit(parseInt(limit))
       .skip(parseInt(page) * parseInt(limit))
       .sort({ createdAt: -1 });
-      console.log(diaries)
-    res.status(200).json({diaries});
+
+    const decryptedDiaries = diaries.map((diary) => {
+      diary.content = decrypt(diary.content);
+      diary.title = decrypt(diary.title);
+      return diary;
+    });
+      
+    res.status(200).json({decryptedDiaries});
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
