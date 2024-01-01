@@ -95,6 +95,37 @@ const changeName = async (req, res) => {
   }
 };
 
+//Change User's emoji
+const changeEmoji = async (req, res) => {
+  try {
+    const { emoji } = req.body;
+
+    if (!emoji) {
+      return res.status(400).json("Emoji is required");
+    }
+
+    // *Find the user
+    const user = await User.findByIdAndUpdate(
+      {
+        _id: req.user._id,
+      },
+      {
+        emoji: emoji,
+      },
+      {
+        new: true,
+      }
+    );
+
+    return res
+      .status(200)
+      .json({ message: "Emoji changed successfully", user: user });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json("Internal server error");
+  }
+};
+
 // Delete a user
 const deleteUser = async (req, res) => {
   try {
@@ -112,4 +143,5 @@ module.exports = {
   changeName,
   deleteUser,
   usernameExist,
+  changeEmoji,
 };
