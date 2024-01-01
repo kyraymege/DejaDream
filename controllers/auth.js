@@ -92,14 +92,14 @@ const refreshToken = async (req, res) => {
 
       // *Create a new access token
       const accessToken = jwt.sign(
-        { appleId: user.appleId },
+        { appleId: user.appleId, _id: user._id},
         process.env.ACCESS_SECRET,
         { expiresIn: "15m" }
       );
 
       // *Create a new refresh token
       const refreshToken = jwt.sign(
-        { appleId: user.appleId },
+        { appleId: user.appleId, _id: user._id},
         process.env.REFRESH_SECRET,
         { expiresIn: "15d" }
       );

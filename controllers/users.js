@@ -4,7 +4,7 @@ const User = require("../models/user");
 const getUser = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
-    return res.status(200).json(user);
+    return res.status(200).json({user : user});
   } catch (err) {
     console.error(err);
     return res.status(500).json("Internal server error");
@@ -36,6 +36,28 @@ const changeUsername = async (req, res) => {
     return res
       .status(200)
       .json({ message: "Username changed successfully", user: user });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json("Internal server error");
+  }
+};
+
+// Username exist
+const usernameExist = async (req, res) => {
+  try {
+    const { username } = req.query;
+
+    if (!username) {
+      return res.status(400).json("Username is required");
+    }
+
+    const user = await User.findOne({ username: username });
+
+    if (user) {
+      return res.status(200).json({ exist: true });
+    } else {
+      return res.status(200).json({ exist: false });
+    }
   } catch (err) {
     console.error(err);
     return res.status(500).json("Internal server error");
@@ -89,4 +111,5 @@ module.exports = {
   changeUsername,
   changeName,
   deleteUser,
+  usernameExist,
 };

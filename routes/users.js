@@ -5,6 +5,7 @@ const {
   changeUsername,
   changeName,
   deleteUser,
+  usernameExist
 } = require("../controllers/users");
 
 //* Users Routes
@@ -14,6 +15,9 @@ router.get("/", authenticateToken, getUser);
 
 // Change username
 router.put("/changeUsername",authenticateToken, changeUsername);
+
+// Username exist
+router.get("/usernameExist", authenticateToken, usernameExist);
 
 // Change name
 router.put("/changeName",authenticateToken, changeName);
