@@ -10,8 +10,6 @@ router.post("/apple-login", validateApple, appleLogin);
 //* Refresh Token
 router.post("/refresh-token", refreshToken);
 
-//* Add Logout method
-
 
 
 
