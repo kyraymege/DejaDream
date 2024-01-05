@@ -30,6 +30,7 @@ const getDiaryById = async (req, res) => {
       return res.status(404).json({ error: "Diary not found" });
     }
     diary.content = decrypt(diary.content);
+    diary.title = decrypt(diary.title);
     res.status(200).json(diary);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
